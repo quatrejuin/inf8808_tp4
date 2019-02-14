@@ -25,6 +25,26 @@ function createGroups(g, data, layout, arc, color, total, formatPercent) {
      - Tronquer les noms des stations de BIXI qui sont trop longs (Pontiac et Métro Mont-Royal).
      - Afficher un élément "title" lorsqu'un groupe est survolé par la souris.
   */
+  let group = g.append("g")
+    .selectAll("g")
+    .data(layout.groups)
+    .enter()
+    .append("g")
+
+    group.append("path")
+    .attr("fill", d => color(d.index))
+    .attr("d", arc);
+
+    group.append("text")
+    .each(d => { d.angle = (d.startAngle + d.endAngle) / 2; })
+    .attr("dy", ".35em")
+    .attr("transform", function(d) {return  `
+      rotate(${(d.angle * 180 / Math.PI - 90)})
+      translate(${d3.select(this).attr("innerRadius") + 26})
+      ${d.angle > Math.PI ? "rotate(180)" : ""}
+    `})
+    .attr("text-anchor", d => d.angle > Math.PI ? "end" : null)
+    .text(d => data.nameByIndex.get(d.index));
 
 }
 
@@ -46,6 +66,14 @@ function createChords(g, data, layout, path, color, total, formatPercent) {
      - Créer les cordes du diagramme avec une opacité de 80%.
      - Afficher un élément "title" lorsqu'une corde est survolée par la souris.
   */
+    g.append("g")
+    .attr("fill-opacity", 0.67)
+    .selectAll("path")
+    .data(layout)
+    .enter()
+    .append("path")
+    .attr("fill", d => color(d.source.index))
+    .attr("d", path);
 
 }
 

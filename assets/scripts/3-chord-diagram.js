@@ -104,7 +104,7 @@ function createChords(g, data, layout, path, color, total, formatPercent) {
     .append("svg:title")
     .html((d,i) => {
       return data[d.source.index].name+" -> "+data[d.target.index].name+" "+formatPercent(d.source.value/total)+" des departs\n"
-      +data[d.target.index].name+" -> "+data[d.source.index].name+" "+formatPercent(d.target.value/total)+" des departs\n"
+      +data[d.target.index].name+" -> "+data[d.source.index].name+" "+formatPercent(d.target.value/total)+" des departs"
     });
 }
 
